@@ -1,0 +1,10 @@
+# Ignore secrets
+.env
+
+# PM2 logs
+logs/
+pids/
+*.log
+
+# Node stuff
+node_modules/
