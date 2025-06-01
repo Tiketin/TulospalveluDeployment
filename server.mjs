@@ -19,14 +19,14 @@ const execAsync = promisify(exec);
 
 // Repo-specific secrets
 const secrets = {
-  'tulospalvelupalvelin': process.env.PALVELIN_SECRET,
-  'tulospalveluclient': process.env.CLIENT_SECRET,
+  'Tulospalvelupalvelin': process.env.PALVELIN_SECRET,
+  'Tulospalveluclient-react': process.env.CLIENT_SECRET,
 };
 
 // Repo to deploy script map
 const deployScripts = {
-  'tulospalvelupalvelin': path.join(__dirname, 'Tulospalvelupalvelin/deploy.sh'),
-  'tulospalveluclient': path.join(__dirname, 'Tulospalveluclient-react/deploy.sh'),
+  'Tulospalvelupalvelin': path.join(__dirname, 'Tulospalvelupalvelin/deploy.sh'),
+  'Tulospalveluclient-react': path.join(__dirname, 'Tulospalveluclient-react/deploy.sh'),
 };
 
 // Validate GitHub signature
