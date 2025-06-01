@@ -3,7 +3,14 @@ import { createHmac } from 'crypto';
 import { exec } from 'child_process';
 import { promisify } from 'util';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 dotenv.config();
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 app.use(express.json({ type: '*/*' }));
@@ -18,8 +25,8 @@ const secrets = {
 
 // Repo to deploy script map
 const deployScripts = {
-  'tulospalvelupalvelin': path.resolve(__dirname, '../Tulospalvelupalvelin/deploy.sh'),
-  'tulospalveluclient': path.resolve(__dirname, '../Tulospalveluclient-react/deploy.sh'),
+  'tulospalvelupalvelin': path.join(__dirname, 'Tulospalvelupalvelin/deploy.sh'),
+  'tulospalveluclient': path.join(__dirname, 'Tulospalveluclient-react/deploy.sh'),
 };
 
 // Validate GitHub signature
