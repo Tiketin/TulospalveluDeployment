@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { timingSafeEqual } from 'crypto';
 dotenv.config();
 
 
@@ -13,7 +14,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
-app.use(express.json({ type: '*/*' }));
 
 const execAsync = promisify(exec);
 
@@ -33,7 +33,14 @@ const deployScripts = {
 function verifySignature(secret, payload, signature) {
   const hmac = createHmac('sha256', secret);
   const digest = 'sha256=' + hmac.update(payload).digest('hex');
-  return signature === digest;
+
+  const bufferSig = Buffer.from(signature || '', 'utf8');
+  const bufferDigest = Buffer.from(digest, 'utf8');
+
+  // Prevent DoS by only comparing if both buffers are the same length
+  if (bufferSig.length !== bufferDigest.length) return false;
+
+  return timingSafeEqual(bufferSig, bufferDigest);
 }
 
 app.post('/webhook', express.raw({ type: '*/*' }), async (req, res) => {
