@@ -3,8 +3,12 @@ export default {
     {
       name: 'tulospalvelu-deployment',
       script: './server.mjs',
-      node_args: '-r dotenv/config', // <-- Loads your .env automatically
-      watch: false,
+      env: {
+         PALVELIN_SECRET: process.env.PALVELIN_SECRET,
+         CLIENT_SECRET: process.env.CLIENT_SECRET,
+         PORT: process.env.PORT,
+         GIT_BRANCH: process.env.GIT_BRANCH,
+      },
     },
   ],
 };
