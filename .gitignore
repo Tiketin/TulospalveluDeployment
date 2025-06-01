@@ -8,3 +8,7 @@ pids/
 
 # Node stuff
 node_modules/
+
+#deploy scripts
+Tulospalvelupalvelin/
+Tulospalveluclient-react/

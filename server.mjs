@@ -18,8 +18,8 @@ const secrets = {
 
 // Repo to deploy script map
 const deployScripts = {
-  'tulospalvelupalvelin': '/opt/webhooks/tulospalvelupalvelin/deploy.sh',
-  'tulospalveluclient': '/opt/webhooks/tulospalveluclient/deploy.sh',
+  'tulospalvelupalvelin': path.resolve(__dirname, '../Tulospalvelupalvelin/deploy.sh'),
+  'tulospalveluclient': path.resolve(__dirname, '../Tulospalveluclient-react/deploy.sh'),
 };
 
 // Validate GitHub signature
@@ -49,8 +49,8 @@ app.post('/webhook', express.raw({ type: '*/*' }), async (req, res) => {
     const branch = data.ref; // e.g., refs/heads/main
     console.log(`Received push for ${repoName} on ${branch}`);
 
-    if (branch !== 'refs/heads/main') {
-        console.log('Ignoring non-main branch');
+    if (branch !== process.env.GIT_BRANCH) {
+        console.log('Git Branch does not match desired environment');
         return res.sendStatus(200);
     }
 
