@@ -60,20 +60,19 @@ app.post('/webhook', express.raw({ type: '*/*' }), async (req, res) => {
       return res.sendStatus(401);
     }
 
+    res.status(200).send('Webhook received');
+
     const branch = data.ref; // e.g., refs/heads/main
     console.log(`Received push for ${repoName} on ${branch}`);
 
     if (branch !== process.env.GIT_BRANCH) {
         console.log('Git Branch does not match desired environment');
-        return res.sendStatus(200);
     }
 
     const { stdout, stderr } = await execAsync(deployScripts[repoName]);
     console.log(`Deployed ${repoName}:\n${stdout}`);
-    res.status(200).send('Deployment complete');
   } catch (err) {
     console.error(`Deployment error:\n${err}`);
-    res.status(500).send('Deployment failed');
   }
 });
 
